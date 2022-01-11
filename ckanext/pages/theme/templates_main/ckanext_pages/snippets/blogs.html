@@ -1,0 +1,58 @@
+{% set pages_total = pages|length %}
+{% set action = '{0}_show'.format(type) %}
+
+{% if pages %}
+    {% for page in pages %}
+      {% if id %} {# this is for orgs and groups #}
+        {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action=action, id=id, page='/' + page.name) %}
+      {% elif type == 'blog' %}
+        {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + page.name) %}
+      {% else %}
+        {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/' + page.name) %}
+      {% endif %}
+      <div class="row page-list-item dataset-item">
+      {% if page.image %}
+        <div class="span3 image">
+        <img class = "img-fluid img-thumbnail" src="{{ page.image }}"" alt="Lamp" width="60%">
+
+          <!-- <a style="background-image:url({{ page.image }})" href="{{ url }}">
+          </a> -->
+        </div>
+        <div class="span8">
+           <h3 class="dataset-heading">
+              <a href="{{ url }}" >{{ page.title }} </a>
+              {% if page.publish_date %}
+                 <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
+              {% endif %}
+            </h3>
+            {% if page.content %}
+                {{ h.markdown_extract(page.content) }}
+            {% else %}
+              <p class="empty">{{ _('This page currently has no content') }}</p>
+            {% endif %}
+        </div>
+      {% else %}
+        <div class="span11">
+          <h3 class="dataset-heading">
+            <a href="{{ url }}" >{{ page.title }}</a>
+            {% if page.publish_date %}
+               <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
+            {% endif %}
+          </h3>
+          {% if page.content %}
+              {{ h.markdown_extract(page.content) }}
+          {% else %}
+            <p class="empty">{{ _('This page currently has no content') }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+      </div>
+    {% endfor %}
+
+{% else %}
+    {% if type == 'blog' %}
+      <p class="empty">{{ _('There are currently no blog articles here') }}</p>
+    {% else %}
+      <p class="empty">{{ _('There are currently no pages here') }}</p>
+    {% endif %}
+{% endif %}
