@@ -1,8 +1,6 @@
 {% set pages_total = pages|length %}
 {% set action = '{0}_show'.format(type) %}
 
-{% set ckan_29_or_higher = h.ckan_version().split('.')[1] | int >= 9 %}
-
 {#
 {% if type == 'blog' %}
   <h2>{{ _('1 blog article') if pages_total == 1 else _('{0} blog articles').format(pages_total) }}</h2>
@@ -12,82 +10,53 @@
 #}
 
 {% if type == 'blog' %}
-  <h2>Blog</h2>
+
+
+  <h2 class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</h2>
 {% else %}
  <h2>Pages</h2>
 {% endif %}
 
 {% if pages %}
-  {% set editor = h.get_wysiwyg_editor() %}
-
-    {% for page in pages %}
-      {% if ckan_29_or_higher %}
+    <div class="row">
+    <div class="row">
+        <h2 id="notfound" style="text-align: center;display:none"> No Blog Found </h2>
+        {% for page in pages %}
         {% if id %} {# this is for orgs and groups #}
-          {% set url = h.url_for('pages.{}_pages_show'.format(c.group_dict['type']), id=id, page=page.name) %}
+            {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action=action, id=id, page='/' + page.name) %}
         {% elif type == 'blog' %}
-          {% set url = h.url_for('pages.blog_show', page=page.name) %}
+            {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + page.name) %}
         {% else %}
-          {% set url = h.url_for('pages.show', page=page.name) %}
+            {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/' + page.name) %}
         {% endif %}
-
-      {% else %}
-        {% if id %} {# this is for orgs and groups #}
-          {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action=action, id=id, page='/' + page.name) %}
-        {% elif type == 'blog' %}
-          {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + page.name) %}
-        {% else %}
-          {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/' + page.name) %}
-        {% endif %}
-
-      {% endif %}
-      <div class="row page-list-item dataset-item">
-      {% if page.image %}
-        <div class="span3 image">
-          <a style="background-image:url({{ page.image }})" href="{{ url }}">
-          </a>
-        </div>
-        <div class="span8">
-           <h3 class="dataset-heading">
-              <a href="{{ url }}" >{{ page.title }}</a>
-              {% if page.publish_date %}
-                 <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
-              {% endif %}
-            </h3>
-            {% if page.content %}
-              {% if editor %}
-              <div>
-                {{page.content|striptags|truncate}}
-              </div>
-              {% else %}
-                {{ h.markdown_extract(page.content) }}
-              {% endif %}
-            {% else %}
-              <p class="empty">{{ _('This page currently has no content') }}</p>
-            {% endif %}
-        </div>
-      {% else %}
-        <div class="span11">
-          <h3 class="dataset-heading">
-            <a href="{{ url }}" >{{ page.title }}</a>
-            {% if page.publish_date %}
-               <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
-            {% endif %}
-          </h3>
-          {% if page.content %}
-            {% if editor %}
-            <div>
-              {{page.content|striptags|truncate}}
+        <div class="col-sm-6 col-md-4">
+            <a class="homepage-full-blog" href="{{ url }}">
+            <div class="feed-card thumbnail blog-card">
+                {% if page.image %}
+                    <img class = "feed-image" src="{{ page.image }}" alt="Feed Image">
+                {% else %}
+                    <img class = "feed-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRdmmJPKK_ynmtZgkngAz35PeqZueJv1RNIEzUZV6TNZV8ijqLe" alt="No Image Found">
+                {% endif %}
+                <div class="caption">
+                    <h4 class="homepage-heading blog-heading">
+                        {{ h.markdown_extract(page.title , extract_length=50)  }}                        
+                    </h4>
+                    <hr class="divider" />
+                    <div class="homepage-heading blog-content">
+                        {% if page.content %}
+                            <p> {{ h.markdown_extract(page.content ,extract_length=400) }} </p>
+                        {% else %}
+                        <p class="empty">{{ _('This page currently has no content') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <a class="homepage-read-more" href="{{ url }}" >Read More</a>
             </div>
-            {% else %}
-              {{ h.markdown_extract(page.content) }}
-            {% endif %}
-          {% else %}
-            <p class="empty">{{ _('This page currently has no content') }}</p>
-          {% endif %}
+            </a>
         </div>
-      {% endif %}
-      </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+    </div>
 
 {% else %}
     {% if type == 'blog' %}
