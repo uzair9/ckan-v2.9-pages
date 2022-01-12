@@ -1,13 +1,82 @@
 {% extends 'ckanext_pages/blog_edit_base.html' %} 
 
+<!-- <script>
+    function(target){
+    }
+</script> -->
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Blog'), controller='blog', action='index', named_route=group_type + '_index' %}</li>
+{% endblock %}
+
+
 {% block page_primary_action %}
   {% if h.check_access('ckanext_pages_update', {}) %}
-    {% if h.ckan_version().split('.')[1] | int >= 9 %}
-      {% link_for _('Add Article'), named_route='pages.blog_new', page='', class_='btn btn-primary', icon=h.pages_get_plus_icon() %}
-    {% else %}
-      {% link_for _('Add Article'), controller='ckanext.pages.controller:PagesController', action='blog_edit', page='', class_='btn btn-primary', icon=h.pages_get_plus_icon() %}
-    {% endif %}
+    {% link_for _('Add Blog'), controller='ckanext.pages.controller:PagesController', action='blog_edit', page='', class_='btn btn-primary', icon=h.pages_get_plus_icon() %}
+  {% else %}
+<div class="row">
+      <div class="col-md-6">
+        <div>
+            <h4> News updates and blogs regarding Open Data Pakistan </h4>
+        </div>
+    </div>
+      <div class="col-md-6" align="right">
+        <a style="margin-bottom :15px" class="btn btn-primary" href="/contact" target="_blank">
+            <i class="fa fa-sitemap"></i>
+            Post Blog
+        </a>
+      </div>
+    </div>
   {% endif %}
+<div class="row" style="padding-top: 20px;">
+      <form >
+        <div class="hidden-sm hidden-xs input-group search-input-group">
+        <input oninput="(function(){
+            // console.log(document.getElementById('field-giant-search').value.toLowerCase())
+            let flag = 0
+            let blogs = document.getElementsByClassName('col-sm-6 col-md-4')
+                let target = document.getElementById('field-giant-search').value.toLowerCase()
+                if (target){
+                    document.getElementsByClassName('number-of-blogs')[0].style.display = 'none'
+                }else{
+                    document.getElementsByClassName('number-of-blogs')[0].style.display = 'block'
+                }
+                for (i = 0 ; i < blogs.length ; i++){
+                    let HTML = blogs[i].innerHTML.toLowerCase()
+                    if (HTML.includes(target)){
+                            blogs[i].style.display = 'block'
+                            flag += 1
+                    }else{
+                            blogs[i].style.display = 'none'
+                        }
+                }
+                if (flag == 0){
+                    document.getElementById('notfound').style.display = 'block'
+                }else{
+                    document.getElementById('notfound').style.display = 'none'
+                }
+        }())" aria-label="Search organizations..." id="field-giant-search" type="text" class="form-control input-lg" name="q" value="" autocomplete="off" placeholder="Search Blogs...">
+        
+        <span class="input-group-btn">
+            <button class="btn btn-default btn-lg" type="button" value="search" onclick="(function() {
+                document.getElementsByClassName('number-of-blogs')[0].style.display = 'none'
+                let blogs = document.getElementsByClassName('col-sm-6 col-md-4')
+                let target = document.getElementById('field-giant-search').value.toLowerCase()
+                for (i = 0 ; i < blogs.length ; i++){
+                    let HTML = blogs[i].innerHTML.toLowerCase()
+                    if (HTML.includes(target)){
+                            blogs[i].style.display = 'block'
+                    }else{
+                            blogs[i].style.display = 'none'
+                        }
+                }
+            }())">
+            <i class="fa fa-search"></i>
+            </button>
+        </span>
+        </div>
+      </form>
+    </div>
+    
 {% endblock %}
 
 {% block primary_content_inner %}

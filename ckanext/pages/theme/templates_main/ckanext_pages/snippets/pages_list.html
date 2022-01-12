@@ -10,8 +10,6 @@
 #}
 
 {% if type == 'blog' %}
-
-
   <h2 class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</h2>
 {% else %}
  <h2>Pages</h2>
