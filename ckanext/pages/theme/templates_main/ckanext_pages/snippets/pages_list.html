@@ -10,9 +10,9 @@
 #}
 
 {% if type == 'blog' %}
-  <h2 class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</h2>
+  <p style = "font-size: 30px;" class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</p>
 {% else %}
- <h2>Pages</h2>
+    <p style = "font-size: 30px;"> Pages </p>
 {% endif %}
 
 {% if pages %}
@@ -48,7 +48,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <a class="homepage-read-more" href="{{ url }}" >Read More</a>
+                <a class="homepage-read-more" href="{{ url }}"> Read More </a>
             </div>
             </a>
         </div>
