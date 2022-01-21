@@ -6,7 +6,8 @@
   <section class="module-content">
     {% if h.check_access('ckanext_pages_update') %}
       {% link_for _('Edit'), controller='ckanext.pages.controller:PagesController', action='blog_edit', page='/' + c.page.name, class_='btn btn-primary pull-right', icon='edit' %}
-    {% else %}
+      {# {% set url = h.url_for('/blog/' + page.name) %} #}
+      {% else %}
     {% block social %}
       <div class="blog-social-icons pull-right">
         <a href="https://twitter.com/share?url=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank"><i class="fa fa-twitter-square twitter"></i></a>

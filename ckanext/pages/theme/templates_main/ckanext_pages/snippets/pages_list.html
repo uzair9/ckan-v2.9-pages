@@ -23,9 +23,9 @@
         {% if id %} {# this is for orgs and groups #}
             {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action=action, id=id, page='/' + page.name) %}
         {% elif type == 'blog' %}
-            {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + page.name) %}
+            {% set url = h.url_for('/blog/' + page.name) %}
         {% else %}
-            {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/' + page.name) %}
+            {% set url = h.url_for('/pages/' + page.name) %}
         {% endif %}
         <div class="col-sm-6 col-md-4">
             <a class="homepage-full-blog" href="{{ url }}">
