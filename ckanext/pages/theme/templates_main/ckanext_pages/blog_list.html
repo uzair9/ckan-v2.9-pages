@@ -11,8 +11,13 @@
 
 {% block page_primary_action %}
   {% if h.check_access('ckanext_pages_update', {}) %}
-    {% link_for _('Add Blog'), controller='ckanext.pages.controller:PagesController', action='blog_edit', page='', class_='btn btn-primary', icon=h.pages_get_plus_icon() %}
-  {% else %}
+    {# {% link_for _('Add Blog'), controller='ckanext.pages.controller:PagesController', action='blog_edit', page='', class_='btn btn-primary', icon=h.pages_get_plus_icon() %} #}
+    <button class="btn btn-primary" id = "edit-button">
+        <a style = "color: white;" href = "{{ h.url_for('/blog_edit/') }}"> 
+          <i class = "fa fa-add"></i>
+          Add Blog </a>
+    </button>
+    {% else %}
 <div class="row">
       <div class="col-md-6">
         <div>

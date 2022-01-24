@@ -88,7 +88,18 @@
   {% if editor == 'medium' %}
     {{ wysiwyg.editor('content', id='field-content', label=_('Content'), placeholder=_('Enter content here'), value=data.content|safe, error=errors.content) }}
   {% elif editor == 'ckeditor' %}
-    {# {% resource 'ckanext-pages/main' %} #}
+    {% asset 'ckanext-pages/main' %}
+    {# {% if ckan_29_or_higher %} #}
+        {# {% snippet 'ckanext_pages/snippets/pages_' ~ type ~ '.html', name='pages/main-js' %}
+        {% snippet 'ckanext_pages/snippets/pages_' ~ type ~ '.html', name='pages/main-css' %} #}
+        
+        {# Hussnain gave these two lines based on the two lines above #}
+        {# {% snippet 'ckanext_pages/snippets/pages_' ~ 'asset' ~ '.html', name='pages/main-js' %}
+        {% snippet 'ckanext_pages/snippets/pages_' ~'asset' ~ '.html', name='pages/main-css' %} #}
+      
+        {# {% else %}
+        {% snippet 'ckanext_pages/snippets/pages_' ~ type ~ '.html', name='pages/main' %}
+      {% endif %}  #}
     <div class="control-group">
         <label for="field-content-ck" class="control-label">{{ _('Content') }}</label>
     </div>
