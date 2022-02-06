@@ -29,20 +29,31 @@
         {% endif %}
         <div class="col-sm-6 col-md-4">
             <a class="homepage-full-blog" href="{{ url }}">
-            <div class="feed-card thumbnail blog-card">
+            <div class="feed-card thumbnail blog-card" id = "blogs-card-background">
                 {% if page.image %}
                     <img class = "feed-image" src="{{ page.image }}" alt="Feed Image">
                 {% else %}
                     <img class = "feed-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRdmmJPKK_ynmtZgkngAz35PeqZueJv1RNIEzUZV6TNZV8ijqLe" alt="No Image Found">
                 {% endif %}
                 <div class="caption">
-                    <h4 class="homepage-heading blog-heading">
-                        {{ h.markdown_extract(page.title , extract_length=50)  }}                        
-                    </h4>
+                    {% if page.title %}
+                        <h4 class="homepage-heading blog-heading">
+                            {{ h.markdown_extract(page.title, extract_length=30) }}
+                        </h4>
+                        {#{% else %}
+                        <h4 class="homepage-heading blog-heading">
+                            {{ h.markdown_extract(page.title) }}
+                        </h4> #}
+                    {% endif %}
                     <hr class="divider" />
                     <div class="homepage-heading blog-content">
                         {% if page.content %}
-                            <p> {{ h.markdown_extract(page.content ,extract_length=400) }} </p>
+                        <p> {{ h.markdown_extract(page.content, extract_length=400) }} </p>
+                            {# {% if page.title | length >= 31 %}
+                                <p> {{ h.markdown_extract(page.content, extract_length=200) }} </p>
+                            {% else %}
+                                <p> {{ h.markdown_extract(page.content, extract_length=400) }} </p>
+                            {% endif %} #}
                         {% else %}
                         <p class="empty">{{ _('This page currently has no content') }}</p>
                         {% endif %}

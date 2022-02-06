@@ -16,7 +16,7 @@
       {% else %}
     {% block social %}
       <div class="blog-social-icons pull-right">
-        <a href="https://twitter.com/share?url=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank"><i class="fa fa-twitter-square twitter"></i></a>
+        <a href="https://twitter.com/share?url=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank"><i class="fa fa-twitter-square"></i></a>
         <a href="https://www.facebook.com/sharer.php?u=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank"><i class="fa fa-facebook-square"></i></a>
       </div>
     {% endblock %}
@@ -27,9 +27,10 @@
          <span class="muted date"> {{ h.render_datetime(c.page.publish_date) }} </span>
       {% endif %}
     {% if c.page.content %}
-      {% set editor = h.get_wysiwyg_editor() %}
+    {% set editor = h.get_wysiwyg_editor() %}
       {% if editor %}
         <div>
+            <br>
             {{c.page.content|safe}}
         </div>
       {% else %}
@@ -62,13 +63,14 @@
             <div class="blog-content">
                 {{ h.markdown_extract(post.content) }}
                 {% if post.publish_date %}
-                   <p> {{ post.content }} </p> <hr>
+                   <p> {{ post.content | truncate(10) }} </p>
+                   <hr>
                 {% endif %}
             </div>
         {% endfor %}
     </div>
   </div>
 
-{# {% resource 'ckanext-pages/blog' %} #}
+{% asset 'ckanext-pages/blog' %}
 {% endblock %}
 
