@@ -2,6 +2,7 @@
 {% block bodytag %}{{ super() }} class="blog"{% endblock %}
 {% block subtitle %}{{ c.page.title }}{% endblock %}
 
+
 {% block primary_content %}
   <section class="module-content">
     {% if h.check_access('ckanext_pages_update') %}
@@ -16,8 +17,12 @@
       {% else %}
     {% block social %}
       <div class="blog-social-icons pull-right">
-        <a href="https://twitter.com/share?url=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank"><i class="fa fa-twitter-square"></i></a>
-        <a href="https://www.facebook.com/sharer.php?u=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank"><i class="fa fa-facebook-square"></i></a>
+        <a href="https://twitter.com/share?url=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank">
+            <img class = "blog-social-icons" style = "height: 42px; width: 42px; filter: invert(48%) sepia(67%) saturate(1925%) hue-rotate(163deg) brightness(98%) contrast(103%);" src = "/images/twitter.svg">
+        </a>
+        <a href="https://www.facebook.com/sharer.php?u=https://opendata.com.pk{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + c.page.name) }}" target="_blank">
+            <img class = "blog-social-icons" style = "height: 42px; width: 42px; filter: invert(33%) sepia(10%) saturate(3075%) hue-rotate(183deg) brightness(96%) contrast(89%);" src = "/images/fb.svg">
+        </a>
       </div>
     {% endblock %}
 
